@@ -53,8 +53,9 @@ class ForecastState extends ChangeNotifier {
 
   Forecast? get forecast {
     if (stationIdentifier == null) return null;
+    final forecast = _forecasts[stationIdentifier];
     if (forecast?.properties == null) return null;
-    return _forecasts[stationIdentifier];
+    return forecast;
   }
 
   Future<void> setCoordinates({required double latitude, required double longitude}) async {
