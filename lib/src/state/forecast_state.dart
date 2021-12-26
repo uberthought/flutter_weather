@@ -53,6 +53,7 @@ class ForecastState extends ChangeNotifier {
 
   Forecast? get forecast {
     if (stationIdentifier == null) return null;
+    if (forecast?.properties == null) return null;
     return _forecasts[stationIdentifier];
   }
 

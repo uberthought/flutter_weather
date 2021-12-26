@@ -16,8 +16,10 @@ class _Home extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              ElevatedButton(onPressed: () => RouteStateScope.of(context).go('/authentication'), child: const Text('Aauthentication')),
               ElevatedButton(onPressed: () => RouteStateScope.of(context).go('/forecast'), child: const Text('Forecast')),
               ElevatedButton(onPressed: () => RouteStateScope.of(context).go('/map'), child: const Text('Map')),
+              ElevatedButton(onPressed: () => RouteStateScope.of(context).go('/graph'), child: const Text('Graph')),
             ],
           ),
         ),

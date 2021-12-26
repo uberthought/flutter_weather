@@ -87,10 +87,10 @@ class Forecast extends StatelessWidget {
               children: [
                 const Text('Updated'),
                 const SizedBox(width: 10),
-                Text(forecast.properties.updated.toString()),
+                Text(forecast.properties!.updated.toString()),
               ],
             ),
-            for (var period in forecast.properties.periods)
+            for (var period in forecast.properties!.periods)
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ForecastPeriod(period: period),

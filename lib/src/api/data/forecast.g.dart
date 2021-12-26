@@ -8,9 +8,12 @@ part of 'forecast.dart';
 
 Forecast _$ForecastFromJson(Map<String, dynamic> json) => Forecast(
       type: json['type'] as String,
-      geometry: Geometry.fromJson(json['geometry'] as Map<String, dynamic>),
-      properties:
-          Properties.fromJson(json['properties'] as Map<String, dynamic>),
+      geometry: json['geometry'] == null
+          ? null
+          : Geometry.fromJson(json['geometry'] as Map<String, dynamic>),
+      properties: json['properties'] == null
+          ? null
+          : Properties.fromJson(json['properties'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ForecastToJson(Forecast instance) => <String, dynamic>{
