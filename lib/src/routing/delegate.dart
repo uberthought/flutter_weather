@@ -1,13 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_weather/src/screens/authentication_page.dart';
-import 'package:flutter_weather/src/screens/graph_page.dart';
-import 'package:flutter_weather/src/screens/home.dart';
-import 'package:flutter_weather/src/screens/map_page.dart';
-import 'package:flutter_weather/src/screens/forecast_page.dart';
-import 'package:flutter_weather/src/screens/splash.dart';
 
-import 'routing.dart';
+import 'parsed_route.dart';
+import 'route_state.dart';
 
 class AppRouterDelegate extends RouterDelegate<ParsedRoute> with ChangeNotifier, PopNavigatorRouterDelegateMixin<ParsedRoute> {
   AppRouterDelegate({required this.navigatorKey, required this.routeState}) {
@@ -19,22 +14,16 @@ class AppRouterDelegate extends RouterDelegate<ParsedRoute> with ChangeNotifier,
 
   @override
   Widget build(BuildContext context) {
-    // if (kDebugMode) print('build ' + routeState.route.path);
-
     return Navigator(
       key: navigatorKey,
-      onPopPage: (route, dynamic result) {
-        return route.didPop(result);
-      },
-      pages: [
-        if (routeState.route.path == '/splash') const Splash(),
-        if (routeState.route.path == '/') const Home(),
-        if (routeState.route.path == '/authentication') ...[const Home(), AuthenticationPage()],
-        if (routeState.route.path == '/forecast') ...[const Home(), ForecastPage()],
-        if (routeState.route.path == '/map') ...[const Home(), MapPage()],
-        if (routeState.route.path == '/graph') ...[const Home(), GraphPage()],
-      ],
+      onPopPage: _onPopPage,
+      pages: buildPages(),
     );
+  }
+
+  bool _onPopPage(route, dynamic result) {
+    if (!route.didPop(result)) return false;
+    return routeState.pop();
   }
 
   @override
@@ -42,18 +31,19 @@ class AppRouterDelegate extends RouterDelegate<ParsedRoute> with ChangeNotifier,
 
   @override
   Future<void> setNewRoutePath(ParsedRoute configuration) async {
-    // if (kDebugMode) print('setNewRoutePath ' + configuration.path);
     if (showSplash) {
       showSplash = false;
-      routeState.route = ParsedRoute(path: '/splash');
+      routeState.set(ParsedRoute(path: '/splash'));
     } else {
-      routeState.route = configuration;
+      routeState.set(configuration);
     }
     return SynchronousFuture(null);
   }
 
   @override
   ParsedRoute get currentConfiguration => routeState.route;
+
+  List<Page> buildPages() => routeState.routes.map((e) => e.page).toList();
 
   @override
   void dispose() {

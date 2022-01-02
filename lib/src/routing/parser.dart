@@ -1,7 +1,6 @@
-// import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
-import 'routing.dart';
+import 'parsed_route.dart';
 
 class RouteParser extends RouteInformationParser<ParsedRoute> {
   final ParsedRoute initialRoute;
@@ -10,7 +9,13 @@ class RouteParser extends RouteInformationParser<ParsedRoute> {
 
   @override
   Future<ParsedRoute> parseRouteInformation(RouteInformation routeInformation) async {
-    // if (kDebugMode) print('parseRouteInformation ' + (routeInformation.location ?? 'null'));
-    return ParsedRoute(path: routeInformation.location ?? '/');
+    final uri = Uri.parse(routeInformation.location ?? '/');
+    return ParsedRoute(path: uri.path, parameters: uri.queryParameters);
+  }
+
+  @override
+  RouteInformation? restoreRouteInformation(ParsedRoute configuration) {
+    final uri = Uri(path: configuration.path, queryParameters: configuration.parameters.isEmpty ? null : configuration.parameters);
+    return RouteInformation(location: uri.toString());
   }
 }
