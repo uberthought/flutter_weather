@@ -4,7 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_weather/src/screens/forecast_widget.dart';
+import 'package:flutter_weather/src/pages/forecast_widget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 // import 'package:flutter_weather/src/api/data/forecast.dart';
